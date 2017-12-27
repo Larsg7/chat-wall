@@ -1,0 +1,3 @@
+<ul class="list-group">
+  <app-chat-item *ngFor="let message of chatService.getAll() | async" [message]="message"></app-chat-item>
+</ul>
