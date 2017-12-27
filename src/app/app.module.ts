@@ -9,6 +9,7 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { ChatItemComponent } from './components/chat-item/chat-item.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { ChatService } from './services/chat.service';
+import { ServiceModule } from './services/service.module';
 
 
 @NgModule({
@@ -21,10 +22,8 @@ import { ChatService } from './services/chat.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [
-    ChatService
+    AppRoutingModule,
+    ServiceModule,
   ],
   bootstrap: [AppComponent]
 })
