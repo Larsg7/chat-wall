@@ -29,6 +29,7 @@ export class ChatInputComponent implements OnInit {
 
     console.log(this.chatForm);
     // TODO send message
+    this.chatForm.reset();
   }
 
 }
