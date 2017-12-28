@@ -11,9 +11,15 @@ export class ChatItemComponent implements OnInit {
   @Input()
   message: Message;
 
+  voted = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  upvote() {
+    this.voted = !this.voted;
   }
 
 }

@@ -1,1 +1,13 @@
-<li class="list-group-item">{{ message?.content }}</li>
+<div class="item">
+  <div class="vote-container text-center">
+    <div class="up-vote" [class.text-success]="voted" (click)="upvote()">
+      <span class="oi oi-caret-top"></span>
+    </div>
+    <div class="votes">{{ message?.votes }}</div>
+  </div>
+  <div class="message">
+    <span class="author">{{ message?.author }}</span>
+    <div class="content">{{ message?.content }}</div>
+  </div>
+</div>
+<hr>
