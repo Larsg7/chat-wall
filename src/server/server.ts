@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as logger from 'morgan';
 import * as path from 'path';
-import { IndexRoutes } from './routes/index';
+import { MessageRoutes } from './routes/message';
 import errorHandler = require('errorhandler');
 import mongoose = require('mongoose');
 
@@ -15,7 +15,6 @@ export class Server {
 
   public app: express.Application;
 
-  private model: IModel; //an instance of IModel
   /**
    * Bootstrap the application.
    *
@@ -35,8 +34,6 @@ export class Server {
    * @constructor
    */
   constructor() {
-    // instance defaults
-    this.model = Object(); // initialize this to an empty object
     // create expressjs application
     this.app = express();
 
@@ -116,13 +113,7 @@ export class Server {
    * @return void
    */
   private routes() {
-    let router: express.Router;
-    router = express.Router();
-
-    IndexRoutes.create(router);
-
-    // use router middleware
-    this.app.use(router);
+    MessageRoutes.create(this.app);
   }
 
 }
