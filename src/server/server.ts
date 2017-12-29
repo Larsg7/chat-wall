@@ -6,6 +6,7 @@ import { MessageRoutes } from './routes/message';
 import errorHandler = require('errorhandler');
 import mongoose = require('mongoose');
 
+
 /**
  * The server.
  *
@@ -14,6 +15,8 @@ import mongoose = require('mongoose');
 export class Server {
 
   public app: express.Application;
+  public swaggerApp: express.Application;
+  public swagger;
 
   /**
    * Bootstrap the application.
@@ -90,7 +93,7 @@ export class Server {
     mongoose.Promise = global.Promise;
 
     // connect to mongoose
-    const connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION);
+    mongoose.connect(MONGODB_CONNECTION);
 
     // create models
     // this.model.user = connection.model<IUserModel>('User', userSchema);

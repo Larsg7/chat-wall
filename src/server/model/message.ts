@@ -35,7 +35,7 @@ const schema = new Schema({
     type: Date,
     required: false
   }
-}).pre('save', (next) => {
+}).pre('save', function(next) {
   if (this._doc) {
     const doc = <MessageModel>this._doc;
     const now = new Date();
@@ -58,6 +58,19 @@ export class Message {
     return new Promise((resolve, reject) => {
       const repo = new MessageRepository();
       repo.retrieve((err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  public static retrieveById(id: string): Promise<MessageModel | null> {
+    return new Promise((resolve, reject) => {
+      const repo = new MessageRepository();
+      repo.findById(id, (err, res) => {
         if (err) {
           reject(err);
         } else {

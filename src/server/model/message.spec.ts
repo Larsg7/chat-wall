@@ -25,12 +25,21 @@ describe('Message', () => {
     done();
   });
 
+  it('should get none by id', async done => {
+    const createdM = await Message.create('Author1', 'Message1');
+    const retrievedM = await Message.retrieveById(createdM._id);
+    expect(retrievedM.author).toBe('Author1');
+    done();
+  });
+
   it('should create one', async done => {
     const res = await Message.create('Author1', 'Message1');
     expect(res.author).toBe('Author1');
     expect(res.content).toBe('Message1');
     expect(res.votes).toBe(0);
     expect(res.flagged).toBe(0);
+    expect(res.dateCreated).toBeDefined();
+    expect(res.dateModified).toBeDefined();
     const allMessages = await Message.retrieve();
     expect(allMessages.length).toBe(1);
     done();
