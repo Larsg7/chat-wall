@@ -1,6 +1,8 @@
 <form [formGroup]="chatForm">
   <div class="form-group">
-    <textarea class="form-control" rows="2" placeholder="Your message" formControlName="message"></textarea>
+    <textarea class="form-control" rows="2" [placeholder]="'NEW_MESSAGE_PLACEHOLDER' | translate" formControlName="message"></textarea>
   </div>
-  <button type="submit" class="btn btn-primary right" (click)="submit()" [disabled]="chatForm.invalid">Send</button>
+  <button type="submit" class="btn btn-primary right" (click)="submit()" [disabled]="chatForm.invalid">
+    {{ 'SEND' | translate }}
+  </button>
 </form>

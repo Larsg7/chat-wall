@@ -12,7 +12,14 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { ChatService } from './services/chat.service';
 import { ServiceModule } from './services/service.module';
 import { ChatInputComponent } from './components/chat-input/chat-input.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -28,7 +35,15 @@ import { ChatInputComponent } from './components/chat-input/chat-input.component
     AppRoutingModule,
     ServiceModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
