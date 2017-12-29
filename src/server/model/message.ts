@@ -1,12 +1,13 @@
 import { Schema, Document, model } from 'mongoose';
+import { RepositoryBase } from './repository';
 
 export interface MessageModel extends Document {
   author: string;
   content: string;
   votes: number;
   flagged: number;
-  dateCreated: Date;
-  dateModified: Date;
+  dateCreated?: Date;
+  dateModified?: Date;
 }
 
 const schema = new Schema({
@@ -53,5 +54,78 @@ export class Message {
   constructor(private message: MessageModel) {
   }
 
-  // TODO
+  public static retrieve(): Promise<MessageModel[]> {
+    return new Promise((resolve, reject) => {
+      const repo = new MessageRepository();
+      repo.retrieve((err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  public static create(author: string, content: string): Promise<MessageModel> {
+    return new Promise((resolve, reject) => {
+      const repo = new MessageRepository();
+
+      const message: MessageModel = <MessageModel>{
+        author: author,
+        content: content,
+        votes: 0,
+        flagged: 0
+      };
+
+      repo.create(message, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  public static update(id: string, content: string, votes?, flagged?): Promise<MessageModel> {
+    return new Promise((resolve, reject) => {
+      const repo = new MessageRepository();
+
+      repo.findById(id, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          res.content = content;
+          if (votes !== undefined) {
+            res.votes = votes;
+          }
+          if (flagged !== undefined) {
+            res.flagged = flagged;
+          }
+          res.save().then(resolve).catch(reject);
+        }
+      });
+    });
+  }
+
+  public static delete(id: string): Promise<MessageModel> {
+    return new Promise((resolve, reject) => {
+      const repo = new MessageRepository();
+
+      repo.findById(id, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          res.remove().then(resolve).catch(reject);
+        }
+      });
+    });
+  }
+}
+
+export class MessageRepository extends RepositoryBase<MessageModel> {
+  constructor() {
+    super(MessageSchema);
+  }
 }
