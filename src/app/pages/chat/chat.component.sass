@@ -3,19 +3,32 @@ $divider-color: #e2e2e2
 #chat-container
   width: 100vw
   height: 100vh
+  overflow-y: hidden
 
   #side-view
     border-left: 1px $divider-color solid
+    display: flex
+    flex-direction: column
+    height: 100vh
 
-  #chat-input
-    position: absolute
-    width: 100%
-    bottom: 0
-    left: 0
-    border-top: 1px $divider-color solid
+    #participants
+      overflow-y: scroll
+
+  #main-view
+    height: 100vh
+    display: flex
+    flex-direction: column
+
+    #chat
+      overflow-y: auto
+      flex-grow: 1
+
+    #chat-input
+      flex: 0 1 auto
+      border-top: 1px $divider-color solid
 
   .header
-    height: 50px
+    flex: 0 0 50px
     color: white
     padding: 0 10px 0 10px
     display: flex

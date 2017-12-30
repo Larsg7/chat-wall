@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms/src/model';
 import { Validators } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
+import { Message } from '../../models/message';
 
 @Component({
   selector: 'app-chat-input',
@@ -28,8 +29,18 @@ export class ChatInputComponent implements OnInit {
     }
 
     console.log(this.chatForm);
-    // TODO send message
-    this.chatForm.reset();
+    const message = new Message(
+      0,
+      'lars',
+      this.chatForm.get('message').value,
+      0,
+      0,
+      null,
+      null
+    );
+    this.chatService.postMessage(message).subscribe(() => {
+      this.chatForm.reset();
+    });
   }
 
 }
