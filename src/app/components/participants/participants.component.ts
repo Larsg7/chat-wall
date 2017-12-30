@@ -8,9 +8,10 @@ import { ChatService } from '../../services/chat.service';
 })
 export class ParticipantsComponent implements OnInit {
 
-  constructor(public chatService: ChatService) { }
+  constructor(public chatService: ChatService) {}
 
   ngOnInit() {
+    this.chatService.getAllParticipants();
   }
 
 }

@@ -66,6 +66,10 @@ export class SocketService {
     return Object.keys(this.io.sockets.connected).length;
   }
 
+  public getUsers(): string[] {
+    return this.sockets.map(s => s.name);
+  }
+
   private setup(): void {
     this.io.on('connect', socket => {
       debug('Client connected');

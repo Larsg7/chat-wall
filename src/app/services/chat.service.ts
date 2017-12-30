@@ -60,9 +60,15 @@ export class ChatService {
   /**
    * getAll
    */
-  public getAll() {
+  public getAllMessages() {
     this.api.get('message').map(m => m.map(_ => Message.fromApi(_))).subscribe(messages => {
       this.messages.next(messages);
+    });
+  }
+
+  public getAllParticipants() {
+    this.api.get('participants').subscribe(users => {
+      this.participants.next(users);
     });
   }
 

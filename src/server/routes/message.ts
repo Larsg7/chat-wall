@@ -6,20 +6,24 @@ export class MessageRoutes {
   public static create(app: express.Application) {
     const router = express.Router();
     const socket = SocketService.getInstance();
-    app.use('/api/message', router);
+    app.use('/api', router);
 
     /**
      * Get all messages.
      * TODO add pagination
      */
-    router.get('/', async (req, res) => {
+    router.get('/message', async (req, res) => {
       res.send(await Message.retrieve());
+    });
+
+    router.get('/participants', (req, res) => {
+      res.send(socket.getUsers());
     });
 
     /**
      * Add a new message.
      */
-    router.post('/', async (req, res) => {
+    router.post('/message', async (req, res) => {
       const body = req.body;
       if (!body.author || !body.content) {
         res.sendStatus(400);
@@ -33,7 +37,7 @@ export class MessageRoutes {
     /**
      * Update a message.
      */
-    router.put('/:id', async (req, res) => {
+    router.put('/message/:id', async (req, res) => {
       const id = req.params['id'];
       const body = req.body;
       if (!body.content) {
@@ -48,7 +52,7 @@ export class MessageRoutes {
     /**
      * Delete a message.
      */
-    router.delete('/:id', async (req, res) => {
+    router.delete('/message/:id', async (req, res) => {
       const id = req.params['id'];
       if (!await Message.retrieveById(id)) {
         res.sendStatus(400);

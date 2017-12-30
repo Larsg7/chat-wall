@@ -4,6 +4,7 @@ import { Message } from '../model/message';
 import * as sinon from 'sinon';
 import * as bodyParser from 'body-parser';
 import supertest = require('supertest');
+import { SocketService } from '../socket/socket';
 
 describe('MessageRoutes', () => {
   let app: express.Application, request: supertest.SuperTest<supertest.Test>, route;
@@ -16,6 +17,12 @@ describe('MessageRoutes', () => {
   const mockMessage = {
     author: 'Test', content: 'Test1', votes: 1
   };
+
+  const mockParticipants = [
+    'Test1',
+    'Test2',
+    'Test3',
+  ];
 
   beforeAll(() => {
     app = express();
@@ -33,6 +40,7 @@ describe('MessageRoutes', () => {
       }
       return new Promise(res => res(null));
     });
+    sinon.stub(SocketService.prototype, 'getUsers').returns(mockParticipants);
     route = new MessageRoutes.create(app);
     request = supertest(app);
   });
@@ -84,6 +92,15 @@ describe('MessageRoutes', () => {
     .send(mockMessage)
     .expect(200, (err, res) => {
       expect(res.body).toEqual(mockMessage);
+      done();
+    });
+  });
+
+  it('returns the participants', async done => {
+    request
+    .get('/api/participants')
+    .expect(200, (err, res) => {
+      expect(res.body).toEqual(mockParticipants);
       done();
     });
   });

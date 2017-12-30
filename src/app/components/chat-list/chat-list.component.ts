@@ -14,7 +14,7 @@ export class ChatListComponent implements OnInit {
   constructor(public chatService: ChatService) { }
 
   ngOnInit() {
-    this.chatService.getAll();
+    this.chatService.getAllMessages();
   }
 
 }
