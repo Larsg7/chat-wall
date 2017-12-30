@@ -3,8 +3,10 @@ import * as bodyParser from 'body-parser';
 import * as logger from 'morgan';
 import * as path from 'path';
 import { MessageRoutes } from './routes/message';
+import { SocketService } from './socket/socket';
 import errorHandler = require('errorhandler');
 import mongoose = require('mongoose');
+const debug = require('debug')('chat:api');
 
 
 /**
@@ -17,6 +19,7 @@ export class Server {
   public app: express.Application;
   public swaggerApp: express.Application;
   public swagger;
+  public socket: SocketService;
 
   /**
    * Bootstrap the application.
@@ -57,8 +60,11 @@ export class Server {
    * @method api
    */
   public api() {
+    this.socket = SocketService.getInstance();
+    this.socket.connect();
+
     // empty for now
-    console.log('Listen on port 3000');
+    debug('Listen on port 3000');
     this.app.listen(process.env.PORT || 3000);
   }
 

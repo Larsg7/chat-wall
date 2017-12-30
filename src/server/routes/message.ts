@@ -1,9 +1,11 @@
 import * as express from 'express';
 import { Message } from '../model/message';
+import { SocketService } from '../socket/socket';
 
 export class MessageRoutes {
   public static create(app: express.Application) {
     const router = express.Router();
+    const socket = SocketService.getInstance();
     app.use('/api/message', router);
 
     /**
@@ -23,7 +25,9 @@ export class MessageRoutes {
         res.sendStatus(400);
         return;
       }
-      res.send(await Message.create(body.author, body.content));
+      const message = await Message.create(body.author, body.content);
+      res.send(message);
+      socket.newMessage.next(message);
     });
 
     /**
@@ -36,7 +40,9 @@ export class MessageRoutes {
         res.sendStatus(400);
         return;
       }
-      res.send(await Message.update(id, body.content, body.votes, body.flagged));
+      const message = await Message.update(id, body.content, body.votes, body.flagged);
+      res.send(message);
+      socket.updatedMessage.next(message);
     });
 
     /**
