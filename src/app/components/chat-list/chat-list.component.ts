@@ -14,10 +14,7 @@ export class ChatListComponent implements OnInit {
   constructor(public chatService: ChatService) { }
 
   ngOnInit() {
-    this.chatService.getAll().subscribe(messages => {
-      this.messages = messages;
-      console.log(messages);
-    });
+    this.chatService.getAll();
   }
 
 }

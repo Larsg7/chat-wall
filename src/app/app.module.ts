@@ -16,6 +16,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { PipesModule } from './pipes/pipes.module';
+import { ParticipantsComponent } from './components/participants/participants.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -29,12 +31,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChatListComponent,
     ChatItemComponent,
     ChatComponent,
-    ChatInputComponent
+    ChatInputComponent,
+    ParticipantsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ServiceModule,
+    PipesModule,
     ReactiveFormsModule,
     HttpClientModule,
     TranslateModule.forRoot({

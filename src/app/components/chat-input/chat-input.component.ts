@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms/src/model';
 import { Validators } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { Message } from '../../models/message';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-chat-input',
@@ -14,9 +15,10 @@ export class ChatInputComponent implements OnInit {
 
   chatForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private chatService: ChatService) {
+  constructor(private formBuilder: FormBuilder, private chatService: ChatService, private userService: UserService) {
     this.chatForm = formBuilder.group({
-      message: ['', Validators.required]
+      message: ['', Validators.required],
+      name: ['', Validators.required],
     });
   }
 
@@ -29,6 +31,9 @@ export class ChatInputComponent implements OnInit {
     }
 
     console.log(this.chatForm);
+    const name = this.chatForm.get('name').value;
+    this.userService.user.next(name);
+
     const message = new Message(
       0,
       'lars',
