@@ -8,30 +8,6 @@ import { ApiService } from './api.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SocketService } from './socket.service';
 
-const mock: MessageModel[] = [
-  <MessageModel>{
-    id: 0,
-    author: 'Test',
-    content: 'Content',
-    votes: 1,
-    flagged: 0
-  },
-  <MessageModel>{
-    id: 0,
-    author: 'Test',
-    content: 'Content',
-    votes: 1,
-    flagged: 0
-  },
-  <MessageModel>{
-    id: 0,
-    author: 'Test',
-    content: 'Content',
-    votes: 1,
-    flagged: 0
-  },
-];
-
 @Injectable()
 export class ChatService {
 
@@ -44,7 +20,8 @@ export class ChatService {
     });
 
     this.socketService.participantEntered.subscribe(user => {
-      this.participants.next(this.participants.getValue().concat(user));
+      const users = this.participants.getValue();
+      this.participants.next(users.concat(user));
     });
 
     this.socketService.participantLeft.subscribe(user => {
@@ -55,6 +32,8 @@ export class ChatService {
         this.participants.next(users);
       }
     });
+
+    this.participants.subscribe(console.log);
   }
 
   /**

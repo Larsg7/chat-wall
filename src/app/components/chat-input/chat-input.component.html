@@ -1,11 +1,18 @@
-<form [formGroup]="chatForm">
+<form *ngIf="userService.user | async; else notLoggedIn" [formGroup]="chatForm">
   <div class="form-group">
     <textarea class="form-control" rows="2" [placeholder]="'NEW_MESSAGE_PLACEHOLDER' | translate" formControlName="message"></textarea>
-  </div>
-  <div class="form-group">
-    <input class="form-control" [placeholder]="'YOUR_NAME' | translate" formControlName="name">
   </div>
   <button type="submit" class="btn btn-primary right" (click)="submit()" [disabled]="chatForm.invalid">
     {{ 'SEND' | translate }}
   </button>
 </form>
+<ng-template #notLoggedIn>
+  <form [formGroup]="userForm">
+    <div class="form-group">
+      <input class="form-control" [placeholder]="'YOUR_NAME' | translate" formControlName="name">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="login()" [disabled]="userForm.invalid">
+      {{ 'LOGIN' | translate }}
+    </button>
+  </form>
+</ng-template>

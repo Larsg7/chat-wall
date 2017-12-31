@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <li class="list-group-item" *ngFor="let name of chatService.participants | async">
-      {{ name }}
+    <li class="list-group-item" *ngFor="let name of chatService.participants | async | sortParticipants:(userService.user | async)">
+      {{ name }} <strong *ngIf="name === (userService.user | async)">({{ 'YOU' | translate }})</strong>
     </li>
   </ul>

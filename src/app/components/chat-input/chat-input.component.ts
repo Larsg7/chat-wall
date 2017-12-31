@@ -14,10 +14,14 @@ import { UserService } from '../../services/user.service';
 export class ChatInputComponent implements OnInit {
 
   chatForm: FormGroup;
+  userForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private chatService: ChatService, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private chatService: ChatService,
+    public userService: UserService) {
     this.chatForm = formBuilder.group({
       message: ['', Validators.required],
+    });
+    this.userForm = formBuilder.group({
       name: ['', Validators.required],
     });
   }
@@ -31,12 +35,9 @@ export class ChatInputComponent implements OnInit {
     }
 
     console.log(this.chatForm);
-    const name = this.chatForm.get('name').value;
-    this.userService.user.next(name);
-
     const message = new Message(
       0,
-      'lars',
+      this.userService.user.getValue(),
       this.chatForm.get('message').value,
       0,
       0,
@@ -46,6 +47,15 @@ export class ChatInputComponent implements OnInit {
     this.chatService.postMessage(message).subscribe(() => {
       this.chatForm.reset();
     });
+  }
+
+  login() {
+    if (this.userForm.invalid) {
+      return;
+    }
+
+    const name = this.userForm.get('name').value;
+    this.userService.user.next(name);
   }
 
 }
