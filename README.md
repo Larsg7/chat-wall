@@ -9,9 +9,9 @@ Simple live chat/message wall to which everyone can write. Uses angular5, expres
 Requires node, angular/cli, nodemon and ts-node.
 
 ```
-  npm install
-  npm build
-  npm run start:server
+  yarn install
+  yarn run build
+  yarn run start:server
 ```
 
 Then open `http://localhost:3000`.
