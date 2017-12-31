@@ -5,5 +5,10 @@
   "YOUR_NAME": "Dein Name",
   "LOGIN": "Anmelden",
   "SEND": "Abschicken",
-  "YOU": "Du"
+  "YOU": "Du",
+
+  "HELP_TEXT_NAME": "Dieser Name wird öffentlich angezeigt.",
+
+  "ERROR_NAME_TAKEN": "Name wird bereits verwendet.",
+  "ERROR_NAME_REQUIRED": "Bitte trage einen Namen ein."
 }

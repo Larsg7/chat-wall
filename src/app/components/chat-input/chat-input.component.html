@@ -1,17 +1,29 @@
-<form *ngIf="userService.user | async; else notLoggedIn" [formGroup]="chatForm">
+<form *ngIf="userService.user | async; else notLoggedIn" [formGroup]="chatForm" novalidate>
   <div class="form-group">
     <textarea class="form-control" rows="2" [placeholder]="'NEW_MESSAGE_PLACEHOLDER' | translate" formControlName="message"></textarea>
   </div>
-  <button type="submit" class="btn btn-primary right" (click)="submit()" [disabled]="chatForm.invalid">
+  <button class="btn btn-primary right" (click)="submit()" [disabled]="chatForm.invalid">
     {{ 'SEND' | translate }}
   </button>
 </form>
 <ng-template #notLoggedIn>
-  <form [formGroup]="userForm">
-    <div class="form-group">
-      <input class="form-control" [placeholder]="'YOUR_NAME' | translate" formControlName="name">
+  <form [formGroup]="userForm" novalidate>
+    <div class="form-group" [class.is-invalid]="userForm.controls['name'].errors && userForm.controls['name'].dirty">
+      <input class="form-control" [class.is-invalid]="userForm.controls['name'].errors && userForm.controls['name'].dirty"
+       [placeholder]="'YOUR_NAME' | translate" formControlName="name">
+       <small class="form-text text-muted">
+          {{ 'HELP_TEXT_NAME' | translate }}
+        </small>
+       <div class="invalid-feedback"
+       [hidden]="!userForm.controls['name'].errors?.nameValidation">
+        {{ 'ERROR_NAME_TAKEN' | translate }}
+       </div>
+       <div class="invalid-feedback"
+       [hidden]="!userForm.controls['name'].errors?.required">
+        {{ 'ERROR_NAME_REQUIRED' | translate }}
+       </div>
     </div>
-    <button type="submit" class="btn btn-primary" (click)="login()" [disabled]="userForm.invalid">
+    <button class="btn btn-primary" (click)="login()" [disabled]="userForm.invalid">
       {{ 'LOGIN' | translate }}
     </button>
   </form>
