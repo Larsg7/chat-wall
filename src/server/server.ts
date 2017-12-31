@@ -78,7 +78,7 @@ export class Server {
     const MONGODB_CONNECTION: string = 'mongodb://localhost:27017/chat-wall';
 
     // add static paths
-    this.app.use(express.static(path.join(__dirname, 'public')));
+    this.app.use(express.static(path.join(__dirname, '../../dist')));
 
     // mount logger
     this.app.use(logger('dev'));

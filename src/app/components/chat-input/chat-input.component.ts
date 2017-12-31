@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/switchMap';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
-import { ToastyService } from 'ng2-toasty';
 
 function nameValidation(namesTakenSub: BehaviorSubject<string[]>): ValidatorFn {
   return function(control: FormControl): Promise<object | null> {
